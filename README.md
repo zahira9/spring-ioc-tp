@@ -44,3 +44,30 @@ Le profil `dev` utilise la valeur 150 (résultat 300) et `prod` la valeur 100
 - `com.example.metier` : interface métier et service injecté
 - `com.example.presentation` : lancement par annotations, XML et profils
 - `src/test/java` : tests unitaires et tests d'intégration Spring
+
+## TP 3 : Spring IoC et principe OCP
+
+Le TP3 est ajouté dans le paquet `com.example.tp3`, sans modifier les classes
+du TP2. Il présente quatre implémentations de `IDao` (base de production,
+base de développement, fichier et API simulée), injectées dans `MetierImpl`
+par constructeur.
+
+La propriété `dao.target` choisit l'implémentation dans
+`src/main/resources/tp3-app.properties`. La valeur initiale `daoApi` produit
+`440.0`. Les valeurs reconnues sont `dao`, `dao2`, `daoFile` et `daoApi`.
+
+Le test `OcpSelectionTest` vérifie le résultat pour les quatre choix :
+
+| `dao.target` | Implémentation | Résultat |
+|---|---|---:|
+| `dao` | `DaoImpl` | 200.0 |
+| `dao2` | `DaoImpl2` | 300.0 |
+| `daoFile` | `DaoFile` | 360.0 |
+| `daoApi` | `DaoApi` | 440.0 |
+
+Pour tester le TP3 :
+
+```shell
+mvn clean test
+mvn -q exec:java -Dexec.mainClass=com.example.tp3.presentation.Main
+```
